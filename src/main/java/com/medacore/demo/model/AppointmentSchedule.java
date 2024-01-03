@@ -1,14 +1,16 @@
 package com.medacore.demo.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.sql.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "appointment_schedules")
 @Data
-public class AppointmentSchedule {
+public class AppointmentSchedule extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
