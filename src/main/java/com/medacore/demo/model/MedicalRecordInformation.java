@@ -1,13 +1,17 @@
 package com.medacore.demo.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
+@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "medical_record_informations")
 @Data
-public class MedicalRecordInformation {
+public class MedicalRecordInformation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
