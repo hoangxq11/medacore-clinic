@@ -36,9 +36,9 @@ public class AppointmentScheduleResource {
         return ResponseUtils.ok(appointmentScheduleService.getScheduleOfDoctor(doctorId));
     }
 
-    @GetMapping("/get-schedule-of-patient/{patientUsername}")
-    public ResponseEntity<?> getScheduleOfPatient(@PathVariable String patientUsername) {
-        return ResponseUtils.ok(appointmentScheduleService.getScheduleOfPatient(patientUsername));
+    @PostMapping("/get-schedule-of-patient/{patientUsername}")
+    public ResponseEntity<?> getScheduleOfPatient(@PathVariable String patientUsername, @RequestBody AppointmentScheduleCriteria appointmentScheduleCriteria) {
+        return ResponseUtils.ok(appointmentScheduleService.getScheduleOfPatient(patientUsername, appointmentScheduleCriteria));
     }
 
     @GetMapping("/get-schedule/{scheduleId}")

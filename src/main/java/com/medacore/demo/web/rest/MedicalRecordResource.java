@@ -1,6 +1,7 @@
 package com.medacore.demo.web.rest;
 
 import com.medacore.demo.service.MedicalRecordService;
+import com.medacore.demo.web.dto.request.MedicalRecordCriteria;
 import com.medacore.demo.web.dto.request.MedicalRecordInfoReq;
 import com.medacore.demo.web.dto.request.MedicalRecordReq;
 import com.medacore.demo.web.dto.response.utils.ResponseUtils;
@@ -15,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 public class MedicalRecordResource {
     private final MedicalRecordService medicalRecordService;
 
-    @GetMapping
-    public ResponseEntity<?> getMedicalRecords() {
-        return ResponseUtils.ok(medicalRecordService.getMedicalRecords());
+    @PostMapping
+    public ResponseEntity<?> getMedicalRecords(@RequestBody MedicalRecordCriteria medicalRecordCriteria) {
+        return ResponseUtils.ok(medicalRecordService.getMedicalRecords(medicalRecordCriteria));
     }
 
-    @GetMapping("/doctor/{doctorUsername}")
-    public ResponseEntity<?> getMedicalRecordsOfDoctor(@PathVariable String doctorUsername) {
-        return ResponseUtils.ok(medicalRecordService.getMedicalRecordsOfDoctor(doctorUsername));
+    @PostMapping("/doctor/{doctorUsername}")
+    public ResponseEntity<?> getMedicalRecordsOfDoctor(@PathVariable String doctorUsername, @RequestBody MedicalRecordCriteria medicalRecordCriteria) {
+        return ResponseUtils.ok(medicalRecordService.getMedicalRecordsOfDoctor(doctorUsername, medicalRecordCriteria));
     }
 
     @GetMapping("/patient/{patientUsername}")

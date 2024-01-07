@@ -16,15 +16,20 @@ import com.medacore.demo.web.dto.MedicalRecordDto;
 import com.medacore.demo.web.dto.MedicalRecordInfoDto;
 import com.medacore.demo.web.dto.PatientDto;
 import com.medacore.demo.web.dto.StaffDto;
+import com.medacore.demo.web.dto.request.MedicalRecordCriteria;
 import com.medacore.demo.web.dto.request.MedicalRecordInfoReq;
 import com.medacore.demo.web.dto.request.MedicalRecordReq;
 import com.medacore.demo.web.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,8 +71,8 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
-    public List<MedicalRecordDto> getMedicalRecords() {
-        return medicalRecordRepository.findAll()
+    public List<MedicalRecordDto> getMedicalRecords(MedicalRecordCriteria medicalRecordCriteria) {
+        return medicalRecordRepository.findAll(medicalRecordCriteria.toSpecification())
                 .stream().map(e -> {
                     var res = mappingHelper.map(e, MedicalRecordDto.class);
                     res.setPatientDto(mappingHelper.map(e.getPatient(), PatientDto.class));
@@ -92,8 +97,10 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     }
 
     @Override
-    public List<MedicalRecordDto> getMedicalRecordsOfDoctor(String doctorUsername) {
-        return medicalRecordRepository.findByStaff_Account_Username(doctorUsername)
+    public List<MedicalRecordDto> getMedicalRecordsOfDoctor(String doctorUsername, MedicalRecordCriteria medicalRecordCriteria) {
+        var spec = medicalRecordCriteria.toSpecification().and((root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("staff").get("account").get("username"), doctorUsername));
+        return medicalRecordRepository.findAll(spec)
                 .stream().map(e -> {
                     var res = mappingHelper.map(e, MedicalRecordDto.class);
                     res.setPatientDto(mappingHelper.map(e.getPatient(), PatientDto.class));

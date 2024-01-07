@@ -13,7 +13,7 @@ public interface AppointmentScheduleService {
 
     List<AppointmentScheduleDto> getScheduleOfDoctor(Integer doctorId);
 
-    List<AppointmentScheduleDto> getScheduleOfPatient(String patientUsername);
+    List<AppointmentScheduleDto> getScheduleOfPatient(String patientUsername, AppointmentScheduleCriteria appointmentScheduleCriteria);
 
     AppointmentScheduleDto getScheduleById(Integer scheduleId);
 

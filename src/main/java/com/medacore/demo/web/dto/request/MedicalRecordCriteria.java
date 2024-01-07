@@ -1,23 +1,24 @@
 package com.medacore.demo.web.dto.request;
 
-import com.medacore.demo.model.AppointmentSchedule;
+import com.medacore.demo.model.MedicalRecord;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Data
-public class AppointmentScheduleCriteria {
-    private Date startDate;
-    private Date endDate;
-    private String patientUsername;
+public class MedicalRecordCriteria {
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String patientName;
+    private String patientPhone;
 
-    public Specification<AppointmentSchedule> toSpecification() {
+    public Specification<MedicalRecord> toSpecification() {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (Objects.nonNull(startDate)) {
@@ -26,8 +27,11 @@ public class AppointmentScheduleCriteria {
             if (Objects.nonNull(endDate)) {
                 predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("time"), endDate));
             }
-            if (StringUtils.isNotBlank(patientUsername)) {
-                predicates.add(criteriaBuilder.equal(root.get("patient").get("account").get("username"), patientUsername));
+            if (StringUtils.isNotBlank(patientName)) {
+                predicates.add(criteriaBuilder.like(root.get("patient").get("fullName"), StringUtils.wrap(patientName, "%")));
+            }
+            if (StringUtils.isNotBlank(patientPhone)) {
+                predicates.add(criteriaBuilder.like(root.get("patient").get("phoneNumber"), StringUtils.wrap(patientPhone, "%")));
             }
             query.orderBy(criteriaBuilder.desc(root.get("time")));
             return criteriaBuilder.and(predicates.toArray(Predicate[]::new));

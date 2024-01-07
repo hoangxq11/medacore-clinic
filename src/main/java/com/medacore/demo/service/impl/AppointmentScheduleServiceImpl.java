@@ -76,9 +76,12 @@ public class AppointmentScheduleServiceImpl implements AppointmentScheduleServic
     }
 
     @Override
-    public List<AppointmentScheduleDto> getScheduleOfPatient(String patientUsername) {
-        return appointmentScheduleRepository.findByPatient_Account_Username(patientUsername)
-                .stream().map(e -> {
+    public List<AppointmentScheduleDto> getScheduleOfPatient(String patientUsername, AppointmentScheduleCriteria appointmentScheduleCriteria) {
+        var spec = appointmentScheduleCriteria.toSpecification().and((root, query, criteriaBuilder)
+                -> criteriaBuilder.equal(root.get("patient").get("account").get("username"), patientUsername));
+        return appointmentScheduleRepository.findAll(spec)
+                .stream()
+                .map(e -> {
                     var res = mappingHelper.map(e, AppointmentScheduleDto.class);
                     res.setPatientDto(mappingHelper.map(e.getPatient(), PatientDto.class));
                     res.setStaffDto(mappingHelper.map(e.getStaff(), StaffDto.class));
