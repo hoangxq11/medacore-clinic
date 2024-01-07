@@ -46,11 +46,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Yocare Clinic Project",
-                "Some custom description of API.",
+                "Medacore Clinic Project",
+                "Base API for Clinic management system using Spring boot and mysql.",
                 "1.0",
                 "Terms of service",
-                new Contact("Sallo Szrajbman", "www.baeldung.com", "salloszraj@gmail.com"),
+                new Contact("Nguyen Huy Hoang", "fb.com/hoangxq2k1", "hoangxq01@gmail.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());
