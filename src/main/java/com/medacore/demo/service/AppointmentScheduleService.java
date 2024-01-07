@@ -1,6 +1,7 @@
 package com.medacore.demo.service;
 
 import com.medacore.demo.web.dto.AppointmentScheduleDto;
+import com.medacore.demo.web.dto.request.AppointmentScheduleCriteria;
 import com.medacore.demo.web.dto.request.AppointmentScheduleReq;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface AppointmentScheduleService {
     void updateSchedule(Integer scheduleId, AppointmentScheduleReq appointmentScheduleReq);
 
     void deleteSchedule(Integer scheduleId);
+
+    List<AppointmentScheduleDto> getSchedulesByCriteria(AppointmentScheduleCriteria appointmentScheduleCriteria);
 }

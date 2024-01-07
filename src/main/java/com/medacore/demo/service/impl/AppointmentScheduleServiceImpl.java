@@ -11,6 +11,7 @@ import com.medacore.demo.service.utils.MappingHelper;
 import com.medacore.demo.web.dto.AppointmentScheduleDto;
 import com.medacore.demo.web.dto.PatientDto;
 import com.medacore.demo.web.dto.StaffDto;
+import com.medacore.demo.web.dto.request.AppointmentScheduleCriteria;
 import com.medacore.demo.web.dto.request.AppointmentScheduleReq;
 import com.medacore.demo.web.exception.EntityNotFoundException;
 import com.medacore.demo.web.exception.ServiceException;
@@ -120,5 +121,16 @@ public class AppointmentScheduleServiceImpl implements AppointmentScheduleServic
     @Override
     public void deleteSchedule(Integer scheduleId) {
         appointmentScheduleRepository.deleteById(scheduleId);
+    }
+
+    @Override
+    public List<AppointmentScheduleDto> getSchedulesByCriteria(AppointmentScheduleCriteria appointmentScheduleCriteria) {
+        return appointmentScheduleRepository.findAll(appointmentScheduleCriteria.toSpecification())
+                .stream().map(e -> {
+                    var res = mappingHelper.map(e, AppointmentScheduleDto.class);
+                    res.setPatientDto(mappingHelper.map(e.getPatient(), PatientDto.class));
+                    res.setStaffDto(mappingHelper.map(e.getStaff(), StaffDto.class));
+                    return res;
+                }).collect(Collectors.toList());
     }
 }

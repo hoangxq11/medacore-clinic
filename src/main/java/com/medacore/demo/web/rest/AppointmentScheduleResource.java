@@ -1,6 +1,7 @@
 package com.medacore.demo.web.rest;
 
 import com.medacore.demo.service.AppointmentScheduleService;
+import com.medacore.demo.web.dto.request.AppointmentScheduleCriteria;
 import com.medacore.demo.web.dto.request.AppointmentScheduleReq;
 import com.medacore.demo.web.dto.response.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,11 @@ public class AppointmentScheduleResource {
     @GetMapping
     public ResponseEntity<?> getSchedules() {
         return ResponseUtils.ok(appointmentScheduleService.getSchedules());
+    }
+
+    @PostMapping("/find")
+    public ResponseEntity<?> getSchedulesByCriteria(@RequestBody AppointmentScheduleCriteria appointmentScheduleCriteria) {
+        return ResponseUtils.ok(appointmentScheduleService.getSchedulesByCriteria(appointmentScheduleCriteria));
     }
 
     @GetMapping("/get-schedule-of-doctor/{doctorId}")
