@@ -25,7 +25,7 @@ public class MedicalRecordCriteria {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("time"), startDate));
             }
             if (Objects.nonNull(endDate)) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("time"), endDate));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("time"), endDate.plusDays(1)));
             }
             if (StringUtils.isNotBlank(patientName)) {
                 predicates.add(criteriaBuilder.like(root.get("patient").get("fullName"), StringUtils.wrap(patientName, "%")));
