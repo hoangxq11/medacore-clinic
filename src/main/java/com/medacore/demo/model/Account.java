@@ -34,4 +34,5 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "authority_id")
     private Authority authority;
+    private String name;
 }
